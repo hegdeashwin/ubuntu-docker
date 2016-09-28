@@ -1,12 +1,18 @@
-FROM buildpack-deps:jessie
+FROM ubuntu:16.04
+
+# make sure apt is up to date
+RUN apt-get update
+
+# install nodejs and npm
+RUN apt-get install -y nodejs npm
 
 # Create app directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package.json /usr/src/app/
-RUN npm install
+# install app dependencies
+COPY package.json /usr/src/app
+RUN npm install --production
 
 # Bundle app source
 COPY . /usr/src/app
